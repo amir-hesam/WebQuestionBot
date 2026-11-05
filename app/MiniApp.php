@@ -11,7 +11,11 @@ class MiniApp
 
     public static function enabled()
     {
-        return MiniAppAuth::enabled();
+        $cfg = App::cfg('miniapp', array());
+        if (!is_array($cfg) || (isset($cfg['enabled']) && !$cfg['enabled'])) {
+            return false;
+        }
+        return true;
     }
 
     public static function url()

@@ -280,56 +280,70 @@
     stopTimer();
     var otpOn = state.config && state.config.otp_enabled;
 
-    var html = '<section class="card auth-card" style="max-width:440px;margin:24px auto;">';
-    html += '<div style="text-align:center;margin-bottom:18px;">';
-    html += '<div class="state-icon" style="margin:0 auto 12px;">' + ICONS.user + '</div>';
-    html += '<h2 style="margin:0 0 6px;">ورود به سامانه آزمون</h2>';
-    html += '<p class="muted" style="font-size:0.9rem;">برای شرکت در آزمون‌ها و مشاهده کارنامه وارد شوید</p>';
+    var html = '<div class="auth-wrapper">';
+    html += '<section class="auth-card">';
+    html += '<div class="auth-header">';
+    html += '<div class="auth-icon">' + ICONS.book + '</div>';
+    html += '<h1 class="auth-title">ورود به سامانه آزمون</h1>';
+    html += '<p class="auth-subtitle">جهت شرکت در آزمون‌ها و مشاهده کارنامه وارد شوید</p>';
     html += '</div>';
 
     if (otpOn) {
-      html += '<div class="tab-switcher" style="display:flex;background:var(--bg-subtle,#1b2234);padding:4px;border-radius:12px;margin-bottom:18px;">';
-      html += '<button type="button" class="btn ' + (state.authTab === 'code' ? 'primary' : 'ghost') + '" style="flex:1;padding:8px;" data-auth-tab="code">کد دانش‌آموزی</button>';
-      html += '<button type="button" class="btn ' + (state.authTab === 'otp' ? 'primary' : 'ghost') + '" style="flex:1;padding:8px;" data-auth-tab="otp">ثبت‌نام با پیامک</button>';
+      html += '<div class="auth-nav">';
+      html += '<button type="button" class="auth-nav-btn ' + (state.authTab === 'code' ? 'active' : '') + '" data-auth-tab="code">کد دانش‌آموزی</button>';
+      html += '<button type="button" class="auth-nav-btn ' + (state.authTab === 'otp' ? 'active' : '') + '" data-auth-tab="otp">ثبت‌نام با پیامک</button>';
       html += '</div>';
     }
 
     if (state.authTab === 'code' || !otpOn) {
-      html += '<form id="codeAuthForm" class="stack">';
-      html += '<label><span>کد دانش‌آموزی اختصاصی:</span>';
-      html += '<input type="text" name="student_code" class="code-input" placeholder="مثلاً: ABC123" required autocomplete="off" style="text-align:center;letter-spacing:3px;font-size:1.2rem;text-transform:uppercase;">';
-      html += '</label>';
-      html += '<p class="muted small-text">کد دانش‌آموزی ۶ رقمی که از معلم یا مدرسه دریافت کرده‌اید را وارد کنید.</p>';
-      html += '<button type="submit" class="btn primary" style="width:100%;margin-top:12px;">ورود به آزمون‌ها</button>';
+      html += '<form id="codeAuthForm" class="form-grid">';
+      html += '<div class="field">';
+      html += '<span>کد دانش‌آموزی اختصاصی</span>';
+      html += '<input type="text" name="student_code" class="auth-input-code" placeholder="ABC123" required autocomplete="off" autofocus maxlength="16">';
+      html += '</div>';
+      html += '<div class="auth-hint">' + ICONS.info + '<span>کد ۶ رقمی دریافتی از مدرسه یا دبیر آزمون را وارد کنید.</span></div>';
+      html += '<button type="submit" class="btn primary block auth-submit-btn">ورود به پرتال آزمون ' + ICONS.arrowLeft + '</button>';
       html += '</form>';
     } else {
       // OTP Registration / Login
       if (state.otpStep === 1) {
-        html += '<form id="otpPhoneForm" class="stack">';
-        html += '<label><span>شماره موبایل:</span>';
-        html += '<input type="tel" name="phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" value="' + esc(state.otpPhone) + '" required style="text-align:center;direction:ltr;font-size:1.1rem;">';
-        html += '</label>';
-        html += '<p class="muted small-text">کد تایید ۵ رقمی برای ورود یا ثبت‌نام به این شماره پیامک می‌شود.</p>';
-        html += '<button type="submit" class="btn primary" style="width:100%;margin-top:12px;">ارسال کد تایید</button>';
+        html += '<form id="otpPhoneForm" class="form-grid">';
+        html += '<div class="field">';
+        html += '<span>شماره موبایل دانش‌آموز</span>';
+        html += '<input type="tel" name="phone" class="auth-input-phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" value="' + esc(state.otpPhone) + '" required autofocus>';
+        html += '</div>';
+        html += '<div class="auth-hint">' + ICONS.info + '<span>کد تایید ۵ رقمی جهت احراز هویت به این شماره ارسال خواهد شد.</span></div>';
+        html += '<button type="submit" class="btn primary block auth-submit-btn">ارسال کد تایید ' + ICONS.arrowLeft + '</button>';
         html += '</form>';
       } else {
-        html += '<form id="otpVerifyForm" class="stack">';
-        html += '<div style="background:var(--bg-subtle,#1b2234);padding:10px 14px;border-radius:10px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;">';
+        html += '<form id="otpVerifyForm" class="form-grid">';
+        html += '<div class="auth-phone-badge">';
         html += '<span>شماره: ' + esc(fa(state.otpPhone)) + '</span>';
-        html += '<button type="button" class="btn ghost small" data-action="change-phone">ویرایش</button>';
+        html += '<button type="button" class="btn ghost small" data-action="change-phone">ویرایش شماره</button>';
         html += '</div>';
-        html += '<label><span>کد تایید پیامک‌شده:</span>';
-        html += '<input type="number" name="otp_code" placeholder="۱۲۳۴۵" required style="text-align:center;letter-spacing:6px;font-size:1.3rem;">';
-        html += '</label>';
-        html += '<label><span>نام:</span><input type="text" name="first_name" placeholder="نام خود را وارد کنید"></label>';
-        html += '<label><span>نام خانوادگی:</span><input type="text" name="last_name" placeholder="نام خانوادگی"></label>';
-        html += '<label><span>پایه / کلاس (اختیاری):</span><input type="text" name="class_name" placeholder="مثلاً: دهم تجربی"></label>';
-        html += '<button type="submit" class="btn primary" style="width:100%;margin-top:12px;">تایید و ورود</button>';
+        html += '<div class="field">';
+        html += '<span>کد تایید ۵ رقمی پیامک‌شده</span>';
+        html += '<input type="number" name="otp_code" class="auth-input-otp" placeholder="۱۲۳۴۵" required autofocus maxlength="5">';
+        html += '</div>';
+        html += '<div class="field">';
+        html += '<span>نام</span>';
+        html += '<input type="text" name="first_name" placeholder="نام کوچک" required>';
+        html += '</div>';
+        html += '<div class="field">';
+        html += '<span>نام خانوادگی</span>';
+        html += '<input type="text" name="last_name" placeholder="نام خانوادگی" required>';
+        html += '</div>';
+        html += '<div class="field">';
+        html += '<span>پایه / کلاس <small class="optional">(اختیاری)</small></span>';
+        html += '<input type="text" name="class_name" placeholder="مثلاً: دهم تجربی">';
+        html += '</div>';
+        html += '<button type="submit" class="btn primary block auth-submit-btn" style="margin-top:8px;">تایید و ورود ' + ICONS.check + '</button>';
         html += '</form>';
       }
     }
 
     html += '</section>';
+    html += '</div>';
     view.innerHTML = html;
     syncChrome();
   }

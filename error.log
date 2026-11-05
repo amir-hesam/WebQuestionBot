@@ -2,3 +2,13 @@
 [23-Oct-2026 16:03:05 Asia/Tehran] PHP Deprecated:  Method ReflectionProperty::setAccessible() is deprecated since 8.5, as it has no effect since PHP 8.1 in C:\Users\RP.co\AppData\Local\Temp\opencode\panel_render_test.php on line 83
 [05-Nov-2026 02:25:57 Asia/Tehran] [telebot] panelUrl kv: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
 [05-Nov-2026 02:28:09 Asia/Tehran] [telebot] panelUrl kv: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it
+[05-Nov-2026 02:44:58 Asia/Tehran] PHP Fatal error:  Uncaught Error: Class "MiniAppAuth" not found in D:\QuestionBot\app\MiniApp.php:14
+Stack trace:
+#0 Command line code(1): MiniApp::enabled()
+#1 {main}
+  thrown in D:\QuestionBot\app\MiniApp.php on line 14
+[05-Nov-2026 02:45:07 Asia/Tehran] PHP Fatal error:  Uncaught Error: Class "MiniAppAuth" not found in D:\QuestionBot\app\MiniApp.php:14
+Stack trace:
+#0 Command line code(1): MiniApp::enabled()
+#1 {main}
+  thrown in D:\QuestionBot\app\MiniApp.php on line 14
