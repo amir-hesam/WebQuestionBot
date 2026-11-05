@@ -49,6 +49,46 @@
 }
 
 @font-face {
+  font-family: "YekanBakh";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("fonts/YekanBakh-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "YekanBakh";
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("fonts/YekanBakh-Regular.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "YekanBakh";
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url("fonts/YekanBakh-SemiBold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "YekanBakh";
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url("fonts/YekanBakh-Bold.woff2") format("woff2");
+}
+
+@font-face {
+  font-family: "YekanBakh";
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url("fonts/YekanBakh-Bold.woff2") format("woff2");
+}
+
+@font-face {
   font-family: "Vazirmatn";
   font-style: normal;
   font-weight: 400;
@@ -95,7 +135,7 @@ body {
   min-height: 100vh;
   min-height: 100dvh;
   color: var(--text);
-  font-family: Vazirmatn, Tahoma, "Segoe UI", Arial, sans-serif;
+  font-family: "YekanBakh", Vazirmatn, Tahoma, "Segoe UI", Arial, sans-serif;
   font-size: 14px;
   line-height: 1.9;
   background:
@@ -2287,6 +2327,45 @@ svg {
   color: var(--muted);
   margin: 0;
   line-height: 1.6;
+}
+
+@media print {
+  .topbar,
+  .bottomNav,
+  .bottom-nav,
+  .result-actions,
+  .bg-mesh,
+  .toast,
+  .theme-toggle,
+  .icon-btn,
+  .screen-head,
+  .exam-actions {
+    display: none !important;
+  }
+
+  body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 12pt;
+  }
+
+  .app {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  .result-hero,
+  .card,
+  .wrong-item {
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    background: #fff !important;
+    page-break-inside: avoid;
+  }
+
+  .score-ring {
+    box-shadow: none !important;
+  }
 }
 
 

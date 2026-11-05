@@ -835,6 +835,7 @@
 
     html += '<div class="result-actions">'
       + '<button type="button" class="btn primary block" data-action="back-home">' + ICONS.home + ' بازگشت به خانه</button>'
+      + '<button type="button" class="btn ghost block" data-action="print-result">🖨️ چاپ کارنامه / ذخیره PDF</button>'
       + '<button type="button" class="btn ghost block" data-action="go-history">' + ICONS.chart + ' دیدن همه نتایج</button>'
       + '</div>';
 
@@ -1186,6 +1187,8 @@
           loadExam(Number(target.getAttribute('data-attempt-id')));
         } else if (action === 'open-result') {
           openResult(Number(target.getAttribute('data-attempt-id')));
+        } else if (action === 'print-result') {
+          window.print();
         } else if (action === 'back-home') {
           goHome();
         } else if (action === 'go-history') {
@@ -1332,6 +1335,37 @@
         topbar.classList.toggle('scrolled', window.scrollY > 6);
       }
     }, { passive: true });
+
+    window.addEventListener('beforeunload', function (event) {
+      if (state.screen === 'exam') {
+        event.preventDefault();
+        event.returnValue = '';
+        return '';
+      }
+    });
+
+    window.addEventListener('keydown', function (event) {
+      if (state.screen !== 'exam' || !state.exam) return;
+      var tag = event.target ? event.target.tagName : '';
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+      var key = event.key;
+      if (key >= '1' && key <= '4') {
+        var optIndex = parseInt(key, 10) - 1;
+        var options = view.querySelectorAll('.options .option');
+        if (options && options[optIndex]) {
+          options[optIndex].click();
+        }
+      } else if (key === 'ArrowLeft') {
+        if (state.exam.can_next) {
+          navigateExam(state.exam.index + 1);
+        }
+      } else if (key === 'ArrowRight') {
+        if (state.exam.can_prev) {
+          navigateExam(state.exam.index - 1);
+        }
+      }
+    });
   }
 
   function initTelegram() {

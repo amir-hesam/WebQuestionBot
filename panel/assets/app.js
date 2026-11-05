@@ -52,6 +52,35 @@
       } catch (e) {}
       applyTheme(current);
     });
+
+    document.addEventListener('click', function (event) {
+      var btn = event.target.closest ? event.target.closest('[data-copy-link]') : null;
+      if (!btn) return;
+      var url = window.location.origin + window.location.pathname.replace(/\/panel\/.*$/, '/');
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(url).then(function () {
+          var old = btn.textContent;
+          btn.textContent = '✅ کپی شد!';
+          setTimeout(function () { btn.textContent = old; }, 2000);
+        });
+      } else {
+        window.prompt('آدرس پرتال آزمون برای ارسال به دانش‌آموزان:', url);
+      }
+    });
+
+    document.addEventListener('input', function (event) {
+      var searchInput = event.target.closest ? event.target.closest('[data-filter-table]') : null;
+      if (!searchInput) return;
+      var tableSelector = searchInput.getAttribute('data-filter-table');
+      var table = document.querySelector(tableSelector);
+      if (!table) return;
+      var term = searchInput.value.trim().toLowerCase();
+      var rows = table.querySelectorAll('tbody tr');
+      for (var i = 0; i < rows.length; i++) {
+        var text = rows[i].textContent.toLowerCase();
+        rows[i].style.display = (term === '' || text.indexOf(term) !== -1) ? '' : 'none';
+      }
+    });
   });
 
   document.addEventListener('submit', function (event) {

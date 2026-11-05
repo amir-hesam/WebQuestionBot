@@ -135,10 +135,12 @@ foreach ($answers as $answer) {
       <dt>مدت پاسخ‌دهی</dt>
       <dd><?php echo Panel::h(Panel::dur($attempt['started_at'], $attempt['finished_at'])); ?></dd>
     </div>
+    <?php if (!empty($attempt['telegram_id'])): ?>
     <div>
       <dt>شناسه تلگرام</dt>
       <dd><?php echo Panel::h($attempt['telegram_id']); ?></dd>
     </div>
+    <?php endif; ?>
   </dl>
 </div>
 

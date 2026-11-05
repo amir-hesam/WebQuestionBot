@@ -149,6 +149,7 @@ $timeMinutes = (int) round(((int) $formQuiz['time_limit']) / 60);
   <div class="card-head">
     <h2>خلاصه آزمون</h2>
     <div class="actions">
+      <button class="btn ghost small" type="button" data-copy-link title="کپی آدرس پرتال آزمون">📋 کپی لینک آزمون</button>
       <a class="btn ghost small" href="<?php echo Panel::h(Panel::url('quizzes')); ?>">همه آزمون‌ها</a>
       <a class="btn ghost small" href="<?php echo Panel::h(Panel::url('results', array('quiz' => $quizId))); ?>">نتایج</a>
       <a class="btn ghost small" href="<?php echo Panel::h(Panel::url('export', array('quiz' => $quizId))); ?>">خروجی CSV</a>

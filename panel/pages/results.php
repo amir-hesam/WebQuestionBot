@@ -68,7 +68,7 @@ $filterParams = array('quiz' => $quizId, 'q' => $q);
     <input type="hidden" name="page" value="results">
     <label class="grow">
       جستجو
-      <input type="search" name="q" value="<?php echo Panel::h($q); ?>" placeholder="نام، نام خانوادگی، کد دانش‌آموزی یا عنوان آزمون">
+      <input type="search" name="q" value="<?php echo Panel::h($q); ?>" placeholder="نام، نام خانوادگی، کد دانش‌آموزی یا عنوان آزمون..." data-filter-table="#resultsTable">
     </label>
     <label>
       آزمون
@@ -104,7 +104,7 @@ $filterParams = array('quiz' => $quizId, 'q' => $q);
     <div class="empty">نتیجه‌ای پیدا نشد.</div>
   <?php else: ?>
     <div class="table-wrap">
-      <table>
+      <table id="resultsTable">
         <thead>
           <tr>
             <th>دانش‌آموز</th>
@@ -119,6 +119,7 @@ $filterParams = array('quiz' => $quizId, 'q' => $q);
         </thead>
         <tbody>
           <?php foreach ($rows as $row): ?>
+            <?php $pct = (int) Farsi::pct($row['score'], $row['total']); ?>
             <tr>
               <td>
                 <a href="<?php echo Panel::h(Panel::url('student', array('id' => (int) $row['student_id']))); ?>">
@@ -135,7 +136,11 @@ $filterParams = array('quiz' => $quizId, 'q' => $q);
                 </a>
               </td>
               <td><?php echo Farsi::digits((int) $row['score']); ?>/<?php echo Farsi::digits((int) $row['total']); ?></td>
-              <td><?php echo Farsi::digits(Farsi::pct($row['score'], $row['total'])); ?>٪</td>
+              <td>
+                <span class="badge <?php echo $pct >= 80 ? 'ok' : ($pct >= 50 ? 'warn' : 'err'); ?>">
+                  <?php echo Farsi::digits($pct); ?>٪
+                </span>
+              </td>
               <td class="small-text"><?php echo Panel::h(Panel::dt($row['finished_at'])); ?></td>
               <td><?php echo Panel::h(Panel::finishReason($row['finish_reason'])); ?></td>
               <td>

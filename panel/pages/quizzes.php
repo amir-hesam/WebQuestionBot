@@ -177,6 +177,7 @@ $listParams = array('q' => $q, 'status' => $status);
               <td>
                 <div class="actions">
                   <a class="btn ghost small" href="<?php echo Panel::h(Panel::url('quiz', array('id' => (int) $quiz['id']))); ?>">مدیریت</a>
+                  <button class="btn ghost small" type="button" data-copy-link title="کپی آدرس پرتال آزمون برای ارسال به دانش‌آموزان">📋 لینک</button>
                   <form method="post" action="<?php echo Panel::h(Panel::url('quizzes')); ?>">
                     <?php echo PanelAuth::csrfField(); ?>
                     <input type="hidden" name="action" value="toggle">

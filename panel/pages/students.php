@@ -40,7 +40,8 @@ $where = array();
 $params = array();
 if ($q !== '') {
     $like = '%' . Panel::like($q) . '%';
-    $where[] = '(code LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR class_name LIKE ?)';
+    $where[] = '(code LIKE ? OR first_name LIKE ? OR last_name LIKE ? OR class_name LIKE ? OR phone LIKE ?)';
+    $params[] = $like;
     $params[] = $like;
     $params[] = $like;
     $params[] = $like;
@@ -80,7 +81,7 @@ $listParams = array('q' => $q, 'status' => $status);
     <input type="hidden" name="page" value="students">
     <label class="grow">
       جستجو
-      <input type="search" name="q" value="<?php echo Panel::h($q); ?>" placeholder="نام، نام خانوادگی، کد یا کلاس">
+      <input type="search" name="q" value="<?php echo Panel::h($q); ?>" placeholder="نام، نام خانوادگی، کد یا کلاس..." data-filter-table="#studentsTable">
     </label>
     <label>
       وضعیت
@@ -99,37 +100,29 @@ $listParams = array('q' => $q, 'status' => $status);
     <div class="empty">دانش‌آموزی پیدا نشد.</div>
   <?php else: ?>
     <div class="table-wrap">
-      <table>
+      <table id="studentsTable">
         <thead>
           <tr>
             <th>کد</th>
             <th>نام</th>
             <th>کلاس</th>
+            <th>شماره تماس</th>
             <th>وضعیت</th>
-            <th>قفل تلگرام</th>
             <th>تلاش‌ها</th>
             <th>عملیات</th>
           </tr>
         </thead>
         <tbody>
           <?php foreach ($rows as $row): ?>
-            <?php $locked = !empty($row['locked_telegram_id']); ?>
             <tr>
               <td><code><?php echo Panel::h($row['code']); ?></code></td>
               <td><?php echo Panel::h($row['first_name'] . ' ' . $row['last_name']); ?></td>
               <td><?php echo $row['class_name'] !== null && $row['class_name'] !== '' ? Panel::h($row['class_name']) : '—'; ?></td>
+              <td><?php echo !empty($row['phone']) ? '<code>' . Panel::h(Farsi::digits($row['phone'])) . '</code>' : '—'; ?></td>
               <td>
                 <span class="badge <?php echo (int) $row['is_active'] ? 'ok' : 'gray'; ?>">
                   <?php echo (int) $row['is_active'] ? 'فعال' : 'غیرفعال'; ?>
                 </span>
-              </td>
-              <td>
-                <?php if ($locked): ?>
-                  <span class="badge warn" title="شناسه تلگرام">قفل</span>
-                  <span class="small-text muted"><?php echo Panel::h($row['locked_telegram_id']); ?></span>
-                <?php else: ?>
-                  <span class="badge ok">آزاد</span>
-                <?php endif; ?>
               </td>
               <td>
                 <?php echo Farsi::digits((int) $row['finished_count']); ?>/<?php echo Farsi::digits((int) $row['attempt_count']); ?>
