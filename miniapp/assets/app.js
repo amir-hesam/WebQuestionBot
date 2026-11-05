@@ -298,40 +298,38 @@
     stopTimer();
     var otpOn = state.config && state.config.otp_enabled;
 
-    var html = '<div class="auth-container">';
+    var html = '<div class="auth-layout">';
 
-    // Showcase Section on Desktop
+    // Academic / Official Portal Info on Desktop
     html += '<div class="auth-showcase">';
-    html += '<span class="showcase-pill"><span class="pulse-dot"></span> سامانه هوشمند آزمون آنلاین</span>';
-    html += '<h2 class="showcase-title">سنجش دقیق و سریع با کارنامه تحلیلی هوشمند</h2>';
-    html += '<p class="showcase-desc">محیطی مدرن و بدون استرس برای برگزاری آزمون‌های تستی. بدون نیاز به فرآیندهای پیچیده ثبت‌نام، تنها با داشتن کد اختصاصی وارد شوید.</p>';
+    html += '<div class="portal-badge"><span class="badge-dot"></span> پرتال سنجش و داوطلبان</div>';
+    html += '<h2 class="showcase-title">سامانه برگزاری و تصحیح آزمون‌های آنلاین</h2>';
+    html += '<p class="showcase-desc">محیطی استاندارد و بدون حاشیه برای شرکت در آزمون‌های کلاسی و هماهنگ، همراه با محاسبه دقیق زمان سرور و صدور کارنامه مستند.</p>';
 
-    html += '<div class="showcase-cards">';
-    html += '<div class="showcase-card">';
-    html += '<div class="showcase-card-icon">⚡️</div>';
-    html += '<div class="showcase-card-info"><h4>کارنامه و نتیجه آنی</h4><p>محاسبه نمره، درصد و وضعیت پاسخ‌ها بلافاصله پس از اتمام آزمون</p></div>';
+    html += '<div class="portal-points">';
+    html += '<div class="portal-point">';
+    html += '<div class="point-icon">' + ICONS.key + '</div>';
+    html += '<div class="point-text"><strong>ورود مستقیم با کد داوطلبی</strong><p>تنها با وارد کردن کد اختصاصی دریافتی از مدرسه یا استاد، به آزمون‌های خود دسترسی پیدا کنید.</p></div>';
     html += '</div>';
 
-    html += '<div class="showcase-card">';
-    html += '<div class="showcase-card-icon">⏱️</div>';
-    html += '<div class="showcase-card-info"><h4>تایمر زنده و خودکار</h4><p>ذخیره‌سازی هوشمند پاسخ‌ها در سرور و حفظ امنیت زمان آزمون</p></div>';
+    html += '<div class="portal-point">';
+    html += '<div class="point-icon">' + ICONS.clock + '</div>';
+    html += '<div class="point-text"><strong>تایمر خودکار و ایمن سرور</strong><p>مدیریت دقیق زمان آزمون و ذخیره پیوسته پاسخ‌ها بدون نگرانی از قطعی لحظه‌ای اینترنت.</p></div>';
     html += '</div>';
 
-    html += '<div class="showcase-card">';
-    html += '<div class="showcase-card-icon">🎯</div>';
-    html += '<div class="showcase-card-info"><h4>مرور سوالات و پاسخ‌ها</h4><p>بررسی پاسخ درست گزینه‌ها جهت رفع اشکال و یادگیری بهتر</p></div>';
+    html += '<div class="portal-point">';
+    html += '<div class="point-icon">' + ICONS.chart + '</div>';
+    html += '<div class="point-text"><strong>کارنامه و مرور سوالات</strong><p>مشاهده درصد نمره، تعداد پاسخ‌های درست و غلط و مرور گزینه‌های صحیح بلافاصله پس از اتمام آزمون.</p></div>';
     html += '</div>';
     html += '</div>';
     html += '</div>';
 
     // Auth Card
-    html += '<section class="auth-card">';
+    html += '<section class="card auth-card">';
     html += '<div class="auth-header">';
-    html += '<div class="auth-icon">';
-    html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>';
-    html += '</div>';
-    html += '<h1 class="auth-title">ورود به آزمون</h1>';
-    html += '<p class="auth-subtitle">جهت ورود و مشاهده آزمون‌ها مشخصات خود را وارد کنید</p>';
+    html += '<div class="auth-brand-badge">' + ICONS.book + '</div>';
+    html += '<h1 class="auth-title">ورود به جلسه آزمون</h1>';
+    html += '<p class="auth-subtitle">برای ورود و مشاهده فهرست آزمون‌ها، اطلاعات خود را وارد کنید.</p>';
     html += '</div>';
 
     if (otpOn) {
@@ -344,10 +342,10 @@
     if (state.authTab === 'code' || !otpOn) {
       html += '<form id="codeAuthForm" class="form-grid">';
       html += '<div class="field">';
-      html += '<span>کد دانش‌آموزی اختصاصی</span>';
-      html += '<input type="text" name="student_code" class="auth-input-code" placeholder="مثلاً: AB12" required autocomplete="off" autofocus maxlength="16">';
+      html += '<label for="studentCodeInput">کد دانش‌آموزی اختصاصی</label>';
+      html += '<input type="text" id="studentCodeInput" name="student_code" class="auth-input-code" placeholder="مثال: AB12" required autocomplete="off" autofocus maxlength="16">';
       html += '</div>';
-      html += '<div class="auth-hint">' + ICONS.info + '<span>کد دانش‌آموزی اختصاصی دریافتی از معلم، مدرسه یا برگزارکننده را وارد کنید.</span></div>';
+      html += '<div class="auth-hint">' + ICONS.info + '<span>کد دانش‌آموزی صادرشده توسط مرکز آزمون یا برگزارکننده را وارد کنید.</span></div>';
       html += '<button type="submit" class="btn primary block auth-submit-btn">ورود به پرتال آزمون ' + ICONS.arrowLeft + '</button>';
       html += '</form>';
     } else {
@@ -355,8 +353,8 @@
       if (state.otpStep === 1) {
         html += '<form id="otpPhoneForm" class="form-grid">';
         html += '<div class="field">';
-        html += '<span>شماره موبایل دانش‌آموز</span>';
-        html += '<input type="tel" name="phone" class="auth-input-phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" value="' + esc(state.otpPhone) + '" required autofocus>';
+        html += '<label for="phoneInput">شماره موبایل دانش‌آموز</label>';
+        html += '<input type="tel" id="phoneInput" name="phone" class="auth-input-phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" value="' + esc(state.otpPhone) + '" required autofocus>';
         html += '</div>';
         html += '<div class="auth-hint">' + ICONS.info + '<span>کد تایید ۵ رقمی جهت احراز هویت به این شماره پیامک خواهد شد.</span></div>';
         html += '<button type="submit" class="btn primary block auth-submit-btn">ارسال کد تایید ' + ICONS.arrowLeft + '</button>';
@@ -368,16 +366,16 @@
         html += '<button type="button" class="btn ghost small" data-action="change-phone">ویرایش شماره</button>';
         html += '</div>';
         html += '<div class="field">';
-        html += '<span>کد تایید پیامک‌شده</span>';
-        html += '<input type="number" name="otp_code" class="auth-input-otp" placeholder="۱۲۳۴۵" required autofocus maxlength="5">';
+        html += '<label for="otpCodeInput">کد تایید ۵ رقمی</label>';
+        html += '<input type="number" id="otpCodeInput" name="otp_code" class="auth-input-otp" placeholder="۱۲۳۴۵" required autofocus maxlength="5">';
         html += '</div>';
-        html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
-        html += '<div class="field"><span>نام</span><input type="text" name="first_name" placeholder="نام" required></div>';
-        html += '<div class="field"><span>نام خانوادگی</span><input type="text" name="last_name" placeholder="نام خانوادگی" required></div>';
+        html += '<div class="form-row-2">';
+        html += '<div class="field"><label>نام</label><input type="text" name="first_name" placeholder="نام" required></div>';
+        html += '<div class="field"><label>نام خانوادگی</label><input type="text" name="last_name" placeholder="نام خانوادگی" required></div>';
         html += '</div>';
         html += '<div class="field">';
-        html += '<span>پایه / کلاس / رشته <small class="optional">(اختیاری)</small></span>';
-        html += '<input type="text" name="class_name" placeholder="مثلاً: دوازدهم تجربی">';
+        html += '<label>پایه / کلاس / رشته <span class="optional">(اختیاری)</span></label>';
+        html += '<input type="text" name="class_name" placeholder="مثال: دوازدهم تجربی">';
         html += '</div>';
         html += '<button type="submit" class="btn primary block auth-submit-btn" style="margin-top:6px;">تایید و ورود ' + ICONS.check + '</button>';
         html += '</form>';
@@ -423,27 +421,25 @@
 
   function quizCard(quiz) {
     var active = Number(quiz.attempt_id) > 0;
-    var meta = '<span class="meta-pill">' + ICONS.book + esc(fa(quiz.question_count)) + ' سوال</span>';
-    meta += '<span class="meta-pill">' + ICONS.clock + (Number(quiz.time_limit) > 0
+    var meta = '<span class="card-chip">' + ICONS.book + ' ' + esc(fa(quiz.question_count)) + ' سوال</span>';
+    meta += '<span class="card-chip">' + ICONS.clock + ' ' + (Number(quiz.time_limit) > 0
       ? esc(faDur(quiz.time_limit))
       : 'بدون محدودیت') + '</span>';
     if (quiz.has_code) {
-      meta += '<span class="meta-pill locked">' + ICONS.lock + ' کد ورود دارد</span>';
+      meta += '<span class="card-chip locked">' + ICONS.lock + ' نیازمند کد ورود</span>';
     }
     var button = active
-      ? '<button type="button" class="btn soft" data-action="resume" data-attempt-id="' + Number(quiz.attempt_id) + '">' + ICONS.play + ' ادامه آزمون</button>'
-      : '<button type="button" class="btn primary" data-action="start" data-quiz-id="' + Number(quiz.id) + '">' + ICONS.play + ' شرکت در آزمون</button>';
-    var hint = active
-      ? '<span class="hint">در حال انجام</span>'
-      : '<span class="hint">کد دانش‌آموزی لازم است</span>';
+      ? '<button type="button" class="btn warning block" data-action="resume" data-attempt-id="' + Number(quiz.attempt_id) + '">' + ICONS.play + ' ادامه آزمون</button>'
+      : '<button type="button" class="btn primary block" data-action="start" data-quiz-id="' + Number(quiz.id) + '">' + ICONS.play + ' ورود به آزمون</button>';
+
     return '<article class="card quiz-card">'
-      + '<div class="quiz-top">'
-      + '<span class="quiz-icon">' + ICONS.book + '</span>'
-      + '<div class="quiz-main"><h3>' + esc(quiz.title) + '</h3>'
+      + '<div class="quiz-card-header">'
+      + '<span class="quiz-status-pill ' + (active ? 'live' : '') + '">' + (active ? 'در حال انجام' : 'آزمون آنلاین') + '</span>'
+      + '</div>'
+      + '<h3 class="quiz-title">' + esc(quiz.title) + '</h3>'
       + (quiz.description ? '<p class="quiz-desc">' + esc(quiz.description) + '</p>' : '')
-      + '</div></div>'
-      + '<div class="quiz-meta">' + meta + '</div>'
-      + '<div class="quiz-foot">' + hint + button + '</div>'
+      + '<div class="quiz-chips">' + meta + '</div>'
+      + '<div class="quiz-card-footer">' + button + '</div>'
       + '</article>';
   }
 
@@ -452,31 +448,31 @@
       ? 'بدون محدودیت'
       : faDur(attempt.remaining) + ' باقی‌مانده';
     return '<article class="card active-card">'
-      + '<div class="active-top">'
-      + '<span class="pulse-dot" aria-hidden="true"></span>'
-      + '<div class="quiz-main"><h3>' + esc(attempt.title) + '</h3>'
+      + '<div class="active-head">'
+      + '<span class="pulse-indicator" aria-hidden="true"></span>'
+      + '<div class="active-info"><h3>' + esc(attempt.title) + '</h3>'
       + '<p class="active-meta">' + esc(attempt.student_name || '') + ' · سوال '
       + esc(fa(Number(attempt.current_index) + 1)) + ' از ' + esc(fa(attempt.total)) + '</p>'
       + '</div></div>'
       + '<div class="active-foot">'
-      + '<span class="countdown-pill">' + ICONS.clock + esc(countdown) + '</span>'
+      + '<span class="timer-badge">' + ICONS.clock + ' ' + esc(countdown) + '</span>'
       + '<button type="button" class="btn primary small" data-action="resume" data-attempt-id="'
-      + Number(attempt.attempt_id) + '">' + ICONS.play + ' ادامه</button>'
+      + Number(attempt.attempt_id) + '">' + ICONS.play + ' ادامه آزمون</button>'
       + '</div>'
       + '</article>';
   }
 
   function historyCard(item) {
     var pct = Number(item.percent) || 0;
-    var cls = pct >= 80 ? '' : (pct >= 50 ? ' warn' : ' bad');
+    var cls = pct >= 80 ? 'good' : (pct >= 50 ? 'warn' : 'bad');
     var date = formatDate(item.finished_at);
     return '<button type="button" class="card history-card" data-action="open-result" data-attempt-id="'
       + Number(item.attempt_id) + '">'
-      + '<span class="score-badge' + cls + '">' + esc(fa(pct)) + '٪</span>'
-      + '<span class="history-main"><h3>' + esc(item.title) + '</h3>'
-      + '<p class="history-sub"><span>' + esc(fa(item.score)) + ' از ' + esc(fa(item.total)) + '</span>'
-      + (date ? '<span>' + esc(date) + '</span>' : '')
-      + '</p></span>'
+      + '<div class="history-score ' + cls + '">' + esc(fa(pct)) + '٪</div>'
+      + '<div class="history-info"><h3>' + esc(item.title) + '</h3>'
+      + '<p class="history-meta"><span>' + esc(fa(item.score)) + ' پاسخ درست از ' + esc(fa(item.total)) + '</span>'
+      + (date ? '<span>· ' + esc(date) + '</span>' : '')
+      + '</p></div>'
       + '<span class="chevron">' + ICONS.chevron + '</span>'
       + '</button>';
   }
@@ -509,43 +505,43 @@
     var code = student.code || '';
     var avg = averagePercent(history);
 
-    var html = '<section class="hero-modern">'
-      + '<div class="hero-top-row">'
-      + '<div class="hero-greeting">'
-      + '<h1>سلام، ' + esc(name) + ' 👋</h1>'
-      + '<p>به پرتال آزمون خوش آمدید. آزمون‌ها و کارنامه‌های شما در یک نگاه آماده است.</p>'
+    var html = '<section class="dash-header">'
+      + '<div class="dash-welcome">'
+      + '<div class="dash-welcome-text">'
+      + '<h1>سلام، ' + esc(name) + '</h1>'
+      + '<p class="dash-sub">میز کار داوطلب · فهرست آزمون‌های فعال و سوابق نمرات</p>'
       + '</div>';
     if (code) {
-      html += '<div class="student-tag" title="کپی کد دانش‌آموزی" data-action="copy-code" data-code="' + esc(code) + '" style="cursor:pointer;">'
-        + '<span>کد شما: <b>' + esc(code) + '</b></span>'
-        + '<button type="button" class="btn ghost small" style="padding:2px 8px;font-size:11px;min-height:24px;">کپی</button>'
+      html += '<div class="student-code-badge" data-action="copy-code" data-code="' + esc(code) + '" title="برای کپی کد کلیک کنید">'
+        + '<span>کد داوطلب: <strong>' + esc(code) + '</strong></span>'
+        + '<button type="button" class="btn-copy">کپی</button>'
         + '</div>';
     }
     html += '</div>'
-      + '<div class="stat-row-modern">'
-      + '<div class="stat-card-modern">'
-      + '<div class="stat-icon-wrap" style="background:var(--brand-soft);color:var(--brand);">' + ICONS.book + '</div>'
-      + '<div class="stat-data"><strong>' + esc(fa(quizzes.length)) + '</strong><span>آزمون فعال</span></div>'
+      + '<div class="dash-metrics">'
+      + '<div class="dash-metric-card">'
+      + '<span class="metric-val">' + esc(fa(quizzes.length)) + '</span>'
+      + '<span class="metric-title">آزمون در دسترس</span>'
       + '</div>'
-      + '<div class="stat-card-modern">'
-      + '<div class="stat-icon-wrap" style="background:var(--ok-soft);color:var(--ok);">' + ICONS.check + '</div>'
-      + '<div class="stat-data"><strong>' + esc(fa(history.length)) + '</strong><span>تکمیل‌شده</span></div>'
+      + '<div class="dash-metric-card">'
+      + '<span class="metric-val">' + esc(fa(history.length)) + '</span>'
+      + '<span class="metric-title">آزمون تکمیل‌شده</span>'
       + '</div>'
-      + '<div class="stat-card-modern">'
-      + '<div class="stat-icon-wrap" style="background:var(--warn-soft);color:var(--warn);">' + ICONS.trophy + '</div>'
-      + '<div class="stat-data"><strong>' + esc(fa(avg)) + '٪</strong><span>میانگین نمرات</span></div>'
+      + '<div class="dash-metric-card">'
+      + '<span class="metric-val">' + esc(fa(avg)) + '٪</span>'
+      + '<span class="metric-title">میانگین نمرات</span>'
       + '</div>'
       + '</div></section>';
 
     if (state.tab === 'history') {
       html += '<section class="section">'
-        + '<div class="section-head"><h2>کارنامه‌ها و نتایج من</h2>'
+        + '<div class="section-head"><h2>کارنامه‌ها و سوابق آزمون‌ها</h2>'
         + '<button type="button" class="link-btn" data-action="refresh">' + ICONS.refresh + ' بروزرسانی</button></div>';
       if (history.length === 0) {
-        html += '<div class="empty">' + ICONS.empty + '<h3>هنوز نتیجه‌ای ثبت نشده</h3>'
-          + '<p>پس از شرکت در اولین آزمون، کارنامه تحلیلی در این بخش نمایش داده می‌شود.</p></div>';
+        html += '<div class="empty-state">' + ICONS.empty + '<h3>هنوز نتیجه‌ای ثبت نشده است</h3>'
+          + '<p>پس از شرکت در اولین آزمون، کارنامه و درصد نمره شما در این بخش قرار می‌گیرد.</p></div>';
       } else {
-        html += '<div class="stack">';
+        html += '<div class="history-list">';
         for (var i = 0; i < history.length; i++) {
           html += historyCard(history[i]);
         }
@@ -555,8 +551,8 @@
     } else {
       if (active.length > 0) {
         html += '<section class="section">'
-          + '<div class="section-head"><h2>آزمون در حال انجام</h2><span class="count">'
-          + esc(fa(active.length)) + ' مورد</span></div><div class="stack">';
+          + '<div class="section-head"><h2>آزمون‌های در حال انجام</h2><span class="count-badge">'
+          + esc(fa(active.length)) + ' مورد</span></div><div class="active-list">';
         for (var a = 0; a < active.length; a++) {
           html += activeCard(active[a]);
         }
@@ -564,13 +560,13 @@
       }
 
       html += '<section class="section">'
-        + '<div class="section-head"><h2>آزمون‌های در دسترس</h2>'
+        + '<div class="section-head"><h2>آزمون‌های فعال و در دسترس</h2>'
         + '<button type="button" class="link-btn" data-action="refresh">' + ICONS.refresh + ' بروزرسانی</button></div>';
 
       if (quizzes.length > 2 || state.searchQuery) {
-        html += '<div class="search-wrap">'
-          + '<input type="text" id="quizSearch" class="search-input" placeholder="جستجوی سریع در نام آزمون..." value="' + esc(state.searchQuery || '') + '">'
+        html += '<div class="search-box">'
           + '<span class="search-icon">' + ICONS.search + '</span>'
+          + '<input type="text" id="quizSearch" class="search-input" placeholder="جستجو بر اساس عنوان یا موضوع آزمون..." value="' + esc(state.searchQuery || '') + '">'
           + '</div>';
       }
 
@@ -589,8 +585,8 @@
       }
 
       if (filtered.length === 0) {
-        html += '<div class="empty">' + ICONS.empty + '<h3>آزمونی یافت نشد</h3>'
-          + '<p>' + (qterm ? 'هیچ آزمونی با عبارت جستجوی شما تطابق ندارد.' : 'در حال حاضر آزمون جدیدی فعال نیست.') + '</p></div>';
+        html += '<div class="empty-state">' + ICONS.empty + '<h3>آزمونی یافت نشد</h3>'
+          + '<p>' + (qterm ? 'موردی منطبق با عبارت جستجوی شما پیدا نشد.' : 'در حال حاضر آزمون فعالی برای این دوره ثبت نشده است.') + '</p></div>';
       } else {
         html += '<div class="quiz-grid">';
         for (var q = 0; q < filtered.length; q++) {
@@ -695,6 +691,7 @@
       optionsHtml += '<button type="button" class="' + cls + '" data-action="answer" data-question-id="'
         + Number(question.id) + '" data-option="' + esc(option.key) + '" aria-pressed="'
         + (option.selected ? 'true' : 'false') + '">'
+        + '<span class="option-radio"><span class="radio-dot"></span></span>'
         + '<span class="option-label">' + esc(option.label) + '</span>'
         + '<span class="option-text">' + esc(option.text) + '</span>'
         + mark + '</button>';
@@ -703,9 +700,9 @@
     var note = '';
     if (question.revealed) {
       if (question.selected === question.correct) {
-        note = '<div class="answer-note good">' + ICONS.check + '<span>پاسخ درست بود.</span></div>';
+        note = '<div class="answer-note good">' + ICONS.check + '<span>پاسخ صحیح بود.</span></div>';
       } else {
-        note = '<div class="answer-note bad">' + ICONS.close + '<span>پاسخ درست: '
+        note = '<div class="answer-note bad">' + ICONS.close + '<span>گزینه صحیح: '
           + esc(question.correct_label || question.correct) + '</span></div>';
       }
     }
@@ -734,35 +731,37 @@
 
     view.innerHTML = '<div class="exam-shell">'
       + '<header class="exam-top">'
-      + '<button type="button" class="icon-btn" data-action="leave-exam" aria-label="خروج از آزمون">'
-      + ICONS.arrowRight + '</button>'
-      + '<div class="exam-top-main"><h1>' + esc(exam.quiz.title) + '</h1>'
-      + '<p>' + esc(exam.student.name) + (exam.student.code ? ' · ' + esc(exam.student.code) : '') + '</p></div>'
+      + '<div class="exam-top-info">'
+      + '<h1 class="exam-title">' + esc(exam.quiz.title) + '</h1>'
+      + '<p class="exam-student">' + esc(exam.student.name) + (exam.student.code ? ' · کد: ' + esc(exam.student.code) : '') + '</p>'
+      + '</div>'
+      + '<div class="exam-top-actions">'
       + '<div class="timer-pill" id="timerPill">' + ICONS.clock + '<span>—</span></div>'
+      + '<button type="button" class="btn-leave" data-action="leave-exam" title="خروج از آزمون">' + ICONS.arrowRight + ' خروج</button>'
+      + '</div>'
       + '</header>'
-      + '<section class="card progress-card">'
-      + '<div class="progress-label"><span>سوال ' + esc(fa(exam.index + 1)) + ' از ' + esc(fa(exam.total))
-      + '</span><b>' + esc(fa(exam.answered_count)) + ' پاسخ داده‌شده</b></div>'
-      + '<div class="progress"><span id="examProgress"></span></div>'
-      + '</section>'
+      + '<div class="exam-progress-bar"><div class="exam-progress-fill" id="examProgress"></div></div>'
+      + '<div class="exam-content-grid">'
       + '<section class="card question-card">'
-      + '<span class="q-index">سوال ' + esc(fa(exam.index + 1)) + ' از ' + esc(fa(exam.total)) + '</span>'
-      + '<p class="q-text">' + esc(question.text) + '</p>'
+      + '<div class="q-header">'
+      + '<span class="q-index-badge">سوال ' + esc(fa(exam.index + 1)) + ' از ' + esc(fa(exam.total)) + '</span>'
+      + '</div>'
+      + '<div class="q-text">' + esc(question.text) + '</div>'
       + '<div class="options">' + optionsHtml + '</div>'
       + note
       + '</section>'
-      + '<section class="card palette-card">'
-      + '<div class="palette-head"><span>نمای کلی سوال‌ها</span><b>'
-      + esc(fa(exam.answered_count)) + ' / ' + esc(fa(exam.total)) + '</b></div>'
+      + '<aside class="card palette-card">'
+      + '<div class="palette-head"><span>پاسخ‌نامه سوالات</span><b>' + esc(fa(exam.answered_count)) + ' از ' + esc(fa(exam.total)) + '</b></div>'
       + '<div class="palette">' + palette + '</div>'
-      + '</section>'
+      + '</aside>'
+      + '</div>'
       + '</div>'
       + '<div class="exam-actions"><div class="exam-actions-inner">'
-      + '<button type="button" class="btn nav-arrow" data-action="nav" data-index="' + (exam.index - 1)
-      + '" aria-label="سوال قبلی"' + (exam.can_prev ? '' : ' disabled') + '>' + ICONS.arrowRight + '</button>'
-      + '<button type="button" class="btn finish-btn" data-action="finish">پایان آزمون</button>'
-      + '<button type="button" class="btn nav-arrow" data-action="nav" data-index="' + (exam.index + 1)
-      + '" aria-label="سوال بعدی"' + (exam.can_next ? '' : ' disabled') + '>' + ICONS.arrowLeft + '</button>'
+      + '<button type="button" class="btn ghost nav-btn" data-action="nav" data-index="' + (exam.index - 1)
+      + '"' + (exam.can_prev ? '' : ' disabled') + '>' + ICONS.arrowRight + ' سوال قبل</button>'
+      + '<button type="button" class="btn danger-outline finish-btn" data-action="finish">ثبت و پایان آزمون</button>'
+      + '<button type="button" class="btn primary nav-btn" data-action="nav" data-index="' + (exam.index + 1)
+      + '"' + (exam.can_next ? '' : ' disabled') + '>سوال بعد ' + ICONS.arrowLeft + '</button>'
       + '</div></div>';
 
     var bar = document.getElementById('examProgress');
@@ -776,9 +775,9 @@
 
   function badSelect(selected) {
     if (!selected) {
-      return '<div class="answer-box empty"><span>پاسخ تو</span><strong>بدون پاسخ</strong></div>';
+      return '<div class="comparison-box empty"><span>پاسخ شما:</span><strong>بدون پاسخ</strong></div>';
     }
-    return '<div class="answer-box bad"><span>پاسخ تو</span><strong>'
+    return '<div class="comparison-box wrong"><span>پاسخ انتخابی شما:</span><strong>'
       + esc(selected.label) + ') ' + esc(selected.text) + '</strong></div>';
   }
 
@@ -791,41 +790,50 @@
     state.busy = false;
 
     var pct = Number(result.percent) || 0;
-    var ringClass = pct >= 80 ? 'good' : (pct >= 50 ? 'warn' : 'bad');
-    var title = result.finish_reason === 'timeout' ? 'زمان آزمون تمام شد' : 'آزمون تمام شد';
+    var statusText = pct >= 80 ? 'بسیار عالی' : (pct >= 50 ? 'پذیرفته شده' : 'نیاز به تلاش مجدد');
+    var statusClass = pct >= 80 ? 'good' : (pct >= 50 ? 'warn' : 'bad');
+    var title = result.finish_reason === 'timeout' ? 'زمان آزمون به پایان رسید' : 'آزمون به اتمام رسید';
     if (result.finish_reason === 'admin') {
-      title = 'آزمون توسط ادمین بسته شد';
+      title = 'آزمون توسط مدیر بسته شد';
     }
 
-    var html = '<section class="result-hero">'
-      + '<p class="eyebrow">' + esc(title) + '</p>'
-      + '<div class="score-ring ' + ringClass + '" id="scoreRing"><strong>' + esc(fa(pct)) + '٪</strong></div>'
+    var html = '<section class="card transcript-card">'
+      + '<div class="transcript-head">'
+      + '<div class="transcript-info">'
+      + '<span class="status-badge ' + statusClass + '">' + statusText + '</span>'
       + '<h1>' + esc(result.quiz.title) + '</h1>'
-      + '<p class="result-sub">' + esc(result.student.name)
-      + (result.student.code ? ' · ' + esc(result.student.code) : '') + '</p>'
-      + '<div class="result-stats">'
-      + '<div class="result-stat"><strong>' + esc(fa(result.score)) + '</strong><span>پاسخ درست</span></div>'
-      + '<div class="result-stat"><strong>' + esc(fa(result.total)) + '</strong><span>کل سوال</span></div>'
-      + '<div class="result-stat"><strong>' + esc(faDur(result.spent)) + '</strong><span>زمان صرف‌شده</span></div>'
+      + '<p class="transcript-sub">داوطلب: <strong>' + esc(result.student.name) + '</strong>'
+      + (result.student.code ? ' · کد داوطلب: <code>' + esc(result.student.code) + '</code>' : '') + '</p>'
+      + '</div>'
+      + '<div class="transcript-score-box ' + statusClass + '">'
+      + '<span class="score-percent">' + esc(fa(pct)) + '٪</span>'
+      + '<span class="score-label">درصد نمره</span>'
+      + '</div>'
+      + '</div>'
+      + '<div class="transcript-metrics">'
+      + '<div class="metric-cell"><span class="val green">' + esc(fa(result.score)) + '</span><span class="lbl">پاسخ‌های درست</span></div>'
+      + '<div class="metric-cell"><span class="val red">' + esc(fa(result.total - result.score)) + '</span><span class="lbl">پاسخ‌های نادرست</span></div>'
+      + '<div class="metric-cell"><span class="val">' + esc(fa(result.total)) + '</span><span class="lbl">کل سوالات</span></div>'
+      + '<div class="metric-cell"><span class="val">' + esc(faDur(result.spent)) + '</span><span class="lbl">زمان صرف‌شده</span></div>'
       + '</div></section>';
 
     if (result.show_details) {
       var wrong = result.wrong || [];
       if (wrong.length === 0) {
-        html += '<section class="section"><div class="empty">' + ICONS.trophy
-          + '<h3>عالی بود!</h3><p>همه پاسخ‌ها درست بود.</p></div></section>';
+        html += '<section class="section"><div class="empty-state success">' + ICONS.check
+          + '<h3>پاسخ‌نامه کامل و بدون خطا!</h3><p>شما به تمامی سوالات این آزمون پاسخ صحیح داده‌اید.</p></div></section>';
       } else {
-        html += '<section class="section wrong-section">'
-          + '<div class="section-head"><h2>مرور پاسخ‌های نادرست</h2><span class="count">'
-          + esc(fa(wrong.length)) + ' مورد</span></div>';
+        html += '<section class="section">'
+          + '<div class="section-head"><h2>مرور سوالات و پاسخ‌های تشریحی</h2><span class="count-badge">'
+          + esc(fa(wrong.length)) + ' پاسخ نادرست</span></div>';
         for (var i = 0; i < wrong.length; i++) {
           var item = wrong[i];
-          html += '<article class="wrong-item">'
-            + '<div class="wrong-head"><span class="wrong-num">' + esc(fa(item.n)) + '</span>'
-            + '<p>' + esc(item.question) + '</p></div>'
-            + '<div class="wrong-grid">'
+          html += '<article class="card review-item">'
+            + '<div class="review-head"><span class="review-num">' + esc(fa(item.n)) + '</span>'
+            + '<p class="review-q">' + esc(item.question) + '</p></div>'
+            + '<div class="review-comparison">'
             + badSelect(item.selected)
-            + '<div class="answer-box good"><span>پاسخ درست</span><strong>'
+            + '<div class="comparison-box correct"><span>پاسخ صحیح گزینه:</span><strong>'
             + esc(item.correct.label) + ') ' + esc(item.correct.text) + '</strong></div>'
             + '</div></article>';
         }
@@ -833,17 +841,13 @@
       }
     }
 
-    html += '<div class="result-actions">'
-      + '<button type="button" class="btn primary block" data-action="back-home">' + ICONS.home + ' بازگشت به خانه</button>'
-      + '<button type="button" class="btn ghost block" data-action="print-result">🖨️ چاپ کارنامه / ذخیره PDF</button>'
-      + '<button type="button" class="btn ghost block" data-action="go-history">' + ICONS.chart + ' دیدن همه نتایج</button>'
+    html += '<div class="transcript-actions">'
+      + '<button type="button" class="btn primary" data-action="back-home">' + ICONS.home + ' بازگشت به داشبورد</button>'
+      + '<button type="button" class="btn ghost" data-action="print-result">🖨️ چاپ کارنامه رسمی / ذخیره PDF</button>'
+      + '<button type="button" class="btn ghost" data-action="go-history">' + ICONS.chart + ' سوابق نمرات</button>'
       + '</div>';
 
     view.innerHTML = html;
-    var ring = document.getElementById('scoreRing');
-    if (ring) {
-      ring.style.setProperty('--pct', String(Math.max(0, Math.min(100, pct))));
-    }
     haptic('medium');
     window.scrollTo(0, 0);
     syncChrome();

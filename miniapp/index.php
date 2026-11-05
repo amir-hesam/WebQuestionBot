@@ -50,7 +50,7 @@ header(
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#070b16">
+<meta name="theme-color" content="#2563eb">
 <title><?php echo miniapp_h($title); ?></title>
 <script nonce="<?php echo miniapp_h($nonce); ?>">
 (function () {
@@ -75,11 +75,6 @@ header(
 <link rel="stylesheet" href="assets/style.css?v=<?php echo (int) $cssVersion; ?>">
 </head>
 <body>
-<div class="bg-mesh" aria-hidden="true">
-  <div class="mesh-orb orb-1"></div>
-  <div class="mesh-orb orb-2"></div>
-  <div class="mesh-orb orb-3"></div>
-</div>
 <div class="app">
   <header class="topbar">
     <div class="brand">
