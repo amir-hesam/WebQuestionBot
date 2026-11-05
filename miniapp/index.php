@@ -75,6 +75,11 @@ header(
 <link rel="stylesheet" href="assets/style.css?v=<?php echo (int) $cssVersion; ?>">
 </head>
 <body>
+<div class="bg-mesh" aria-hidden="true">
+  <div class="mesh-orb orb-1"></div>
+  <div class="mesh-orb orb-2"></div>
+  <div class="mesh-orb orb-3"></div>
+</div>
 <div class="app">
   <header class="topbar">
     <div class="brand">
@@ -86,12 +91,25 @@ header(
       </span>
       <span class="brand-text">
         <strong><?php echo miniapp_h($title); ?></strong>
-        <small>پنل دانش‌آموز</small>
+        <small id="brandSubtitle">پرتال سنجش و یادگیری</small>
       </span>
     </div>
-    <div style="display:flex;align-items:center;gap:6px;">
+    <div class="topbar-actions">
+      <div id="userBadge" class="user-badge hidden">
+        <span class="user-avatar" id="userAvatar">د</span>
+        <div class="user-info">
+          <span class="user-name" id="userName">دانش‌آموز</span>
+          <span class="user-code" id="userCode"></span>
+        </div>
+      </div>
       <button class="icon-btn" type="button" id="themeBtn" aria-label="تغییر تم"></button>
-      <button class="btn ghost small hidden" type="button" id="logoutBtn" data-action="logout" style="padding:4px 10px;font-size:12px;">خروج</button>
+      <button class="icon-btn logout-btn hidden" type="button" id="logoutBtn" data-action="logout" title="خروج از حساب" aria-label="خروج">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+      </button>
     </div>
   </header>
 

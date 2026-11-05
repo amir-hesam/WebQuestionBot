@@ -28,7 +28,8 @@
     trophy: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 4h8v4a4 4 0 0 1-8 0V4Z"></path><path d="M8 5H5v2a3 3 0 0 0 3 3M16 5h3v2a3 3 0 0 1-3 3"></path><path d="M12 12v4M9 20h6M10 20v-2h4v2"></path></svg>',
     home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m4 11 8-7 8 7"></path><path d="M6 9.5V20h12V9.5"></path><path d="M10 20v-5h4v5"></path></svg>',
     user: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"></circle><path d="M5.5 20a6.5 6.5 0 0 1 13 0"></path></svg>',
-    key: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"></circle><path d="m11 12 9-9M17 3l4 4M14 6l3 3"></path></svg>'
+    key: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"></circle><path d="m11 12 9-9M17 3l4 4M14 6l3 3"></path></svg>',
+    search: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.35-4.35"></path></svg>'
   };
 
   var state = {
@@ -47,7 +48,9 @@
     student: null,
     authTab: 'code',
     otpStep: 1,
-    otpPhone: ''
+    otpPhone: '',
+    searchQuery: '',
+    activeFilter: 'all'
   };
 
   function esc(value) {
@@ -195,6 +198,21 @@
     if (logoutBtn) {
       logoutBtn.classList.toggle('hidden', !state.student || state.screen === 'exam');
     }
+    var userBadge = document.getElementById('userBadge');
+    var userName = document.getElementById('userName');
+    var userCode = document.getElementById('userCode');
+    var userAvatar = document.getElementById('userAvatar');
+    if (userBadge) {
+      if (state.student && state.screen !== 'auth') {
+        userBadge.classList.remove('hidden');
+        var fullName = (state.student.first_name + ' ' + (state.student.last_name || '')).trim();
+        if (userName) userName.textContent = fullName;
+        if (userCode) userCode.textContent = state.student.code ? 'کد: ' + state.student.code : '';
+        if (userAvatar) userAvatar.textContent = (state.student.first_name || 'د').charAt(0);
+      } else {
+        userBadge.classList.add('hidden');
+      }
+    }
     if (bottomNav) {
       bottomNav.classList.toggle('hidden', !isHome);
       var tabs = bottomNav.querySelectorAll('[data-tab]');
@@ -280,12 +298,40 @@
     stopTimer();
     var otpOn = state.config && state.config.otp_enabled;
 
-    var html = '<div class="auth-wrapper">';
+    var html = '<div class="auth-container">';
+
+    // Showcase Section on Desktop
+    html += '<div class="auth-showcase">';
+    html += '<span class="showcase-pill"><span class="pulse-dot"></span> سامانه هوشمند آزمون آنلاین</span>';
+    html += '<h2 class="showcase-title">سنجش دقیق و سریع با کارنامه تحلیلی هوشمند</h2>';
+    html += '<p class="showcase-desc">محیطی مدرن و بدون استرس برای برگزاری آزمون‌های تستی. بدون نیاز به فرآیندهای پیچیده ثبت‌نام، تنها با داشتن کد اختصاصی وارد شوید.</p>';
+
+    html += '<div class="showcase-cards">';
+    html += '<div class="showcase-card">';
+    html += '<div class="showcase-card-icon">⚡️</div>';
+    html += '<div class="showcase-card-info"><h4>کارنامه و نتیجه آنی</h4><p>محاسبه نمره، درصد و وضعیت پاسخ‌ها بلافاصله پس از اتمام آزمون</p></div>';
+    html += '</div>';
+
+    html += '<div class="showcase-card">';
+    html += '<div class="showcase-card-icon">⏱️</div>';
+    html += '<div class="showcase-card-info"><h4>تایمر زنده و خودکار</h4><p>ذخیره‌سازی هوشمند پاسخ‌ها در سرور و حفظ امنیت زمان آزمون</p></div>';
+    html += '</div>';
+
+    html += '<div class="showcase-card">';
+    html += '<div class="showcase-card-icon">🎯</div>';
+    html += '<div class="showcase-card-info"><h4>مرور سوالات و پاسخ‌ها</h4><p>بررسی پاسخ درست گزینه‌ها جهت رفع اشکال و یادگیری بهتر</p></div>';
+    html += '</div>';
+    html += '</div>';
+    html += '</div>';
+
+    // Auth Card
     html += '<section class="auth-card">';
     html += '<div class="auth-header">';
-    html += '<div class="auth-icon">' + ICONS.book + '</div>';
-    html += '<h1 class="auth-title">ورود به سامانه آزمون</h1>';
-    html += '<p class="auth-subtitle">جهت شرکت در آزمون‌ها و مشاهده کارنامه وارد شوید</p>';
+    html += '<div class="auth-icon">';
+    html += '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>';
+    html += '</div>';
+    html += '<h1 class="auth-title">ورود به آزمون</h1>';
+    html += '<p class="auth-subtitle">جهت ورود و مشاهده آزمون‌ها مشخصات خود را وارد کنید</p>';
     html += '</div>';
 
     if (otpOn) {
@@ -299,9 +345,9 @@
       html += '<form id="codeAuthForm" class="form-grid">';
       html += '<div class="field">';
       html += '<span>کد دانش‌آموزی اختصاصی</span>';
-      html += '<input type="text" name="student_code" class="auth-input-code" placeholder="ABC123" required autocomplete="off" autofocus maxlength="16">';
+      html += '<input type="text" name="student_code" class="auth-input-code" placeholder="مثلاً: AB12" required autocomplete="off" autofocus maxlength="16">';
       html += '</div>';
-      html += '<div class="auth-hint">' + ICONS.info + '<span>کد ۶ رقمی دریافتی از مدرسه یا دبیر آزمون را وارد کنید.</span></div>';
+      html += '<div class="auth-hint">' + ICONS.info + '<span>کد دانش‌آموزی اختصاصی دریافتی از معلم، مدرسه یا برگزارکننده را وارد کنید.</span></div>';
       html += '<button type="submit" class="btn primary block auth-submit-btn">ورود به پرتال آزمون ' + ICONS.arrowLeft + '</button>';
       html += '</form>';
     } else {
@@ -312,32 +358,28 @@
         html += '<span>شماره موبایل دانش‌آموز</span>';
         html += '<input type="tel" name="phone" class="auth-input-phone" placeholder="۰۹۱۲۳۴۵۶۷۸۹" value="' + esc(state.otpPhone) + '" required autofocus>';
         html += '</div>';
-        html += '<div class="auth-hint">' + ICONS.info + '<span>کد تایید ۵ رقمی جهت احراز هویت به این شماره ارسال خواهد شد.</span></div>';
+        html += '<div class="auth-hint">' + ICONS.info + '<span>کد تایید ۵ رقمی جهت احراز هویت به این شماره پیامک خواهد شد.</span></div>';
         html += '<button type="submit" class="btn primary block auth-submit-btn">ارسال کد تایید ' + ICONS.arrowLeft + '</button>';
         html += '</form>';
       } else {
         html += '<form id="otpVerifyForm" class="form-grid">';
         html += '<div class="auth-phone-badge">';
-        html += '<span>شماره: ' + esc(fa(state.otpPhone)) + '</span>';
+        html += '<span>شماره: <strong>' + esc(fa(state.otpPhone)) + '</strong></span>';
         html += '<button type="button" class="btn ghost small" data-action="change-phone">ویرایش شماره</button>';
         html += '</div>';
         html += '<div class="field">';
-        html += '<span>کد تایید ۵ رقمی پیامک‌شده</span>';
+        html += '<span>کد تایید پیامک‌شده</span>';
         html += '<input type="number" name="otp_code" class="auth-input-otp" placeholder="۱۲۳۴۵" required autofocus maxlength="5">';
         html += '</div>';
-        html += '<div class="field">';
-        html += '<span>نام</span>';
-        html += '<input type="text" name="first_name" placeholder="نام کوچک" required>';
+        html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">';
+        html += '<div class="field"><span>نام</span><input type="text" name="first_name" placeholder="نام" required></div>';
+        html += '<div class="field"><span>نام خانوادگی</span><input type="text" name="last_name" placeholder="نام خانوادگی" required></div>';
         html += '</div>';
         html += '<div class="field">';
-        html += '<span>نام خانوادگی</span>';
-        html += '<input type="text" name="last_name" placeholder="نام خانوادگی" required>';
+        html += '<span>پایه / کلاس / رشته <small class="optional">(اختیاری)</small></span>';
+        html += '<input type="text" name="class_name" placeholder="مثلاً: دوازدهم تجربی">';
         html += '</div>';
-        html += '<div class="field">';
-        html += '<span>پایه / کلاس <small class="optional">(اختیاری)</small></span>';
-        html += '<input type="text" name="class_name" placeholder="مثلاً: دهم تجربی">';
-        html += '</div>';
-        html += '<button type="submit" class="btn primary block auth-submit-btn" style="margin-top:8px;">تایید و ورود ' + ICONS.check + '</button>';
+        html += '<button type="submit" class="btn primary block auth-submit-btn" style="margin-top:6px;">تایید و ورود ' + ICONS.check + '</button>';
         html += '</form>';
       }
     }
@@ -462,27 +504,46 @@
     var quizzes = data.quizzes || [];
     var active = data.active || [];
     var history = data.history || [];
-    var user = (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) ? tg.initDataUnsafe.user : {};
-    var name = user.first_name || 'دانش‌آموز';
+    var student = state.student || {};
+    var name = student.first_name ? (student.first_name + (student.last_name ? ' ' + student.last_name : '')) : (tg && tg.initDataUnsafe && tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : 'دانش‌آموز');
+    var code = student.code || '';
     var avg = averagePercent(history);
 
-    var html = '<section class="hero">'
-      + '<p class="hero-kicker">خوش آمدی</p>'
-      + '<h1>' + esc(name) + '</h1>'
-      + '<p class="hero-sub">آزمون‌ها و نتایجت، یک‌جا و آماده.</p>'
-      + '<div class="stat-row">'
-      + '<div class="stat-chip"><strong>' + esc(fa(quizzes.length)) + '</strong><span>آزمون فعال</span></div>'
-      + '<div class="stat-chip"><strong>' + esc(fa(history.length)) + '</strong><span>آزمون تمام‌شده</span></div>'
-      + '<div class="stat-chip"><strong>' + esc(fa(avg)) + '٪</strong><span>میانگین نتایج</span></div>'
+    var html = '<section class="hero-modern">'
+      + '<div class="hero-top-row">'
+      + '<div class="hero-greeting">'
+      + '<h1>سلام، ' + esc(name) + ' 👋</h1>'
+      + '<p>به پرتال آزمون خوش آمدید. آزمون‌ها و کارنامه‌های شما در یک نگاه آماده است.</p>'
+      + '</div>';
+    if (code) {
+      html += '<div class="student-tag" title="کپی کد دانش‌آموزی" data-action="copy-code" data-code="' + esc(code) + '" style="cursor:pointer;">'
+        + '<span>کد شما: <b>' + esc(code) + '</b></span>'
+        + '<button type="button" class="btn ghost small" style="padding:2px 8px;font-size:11px;min-height:24px;">کپی</button>'
+        + '</div>';
+    }
+    html += '</div>'
+      + '<div class="stat-row-modern">'
+      + '<div class="stat-card-modern">'
+      + '<div class="stat-icon-wrap" style="background:var(--brand-soft);color:var(--brand);">' + ICONS.book + '</div>'
+      + '<div class="stat-data"><strong>' + esc(fa(quizzes.length)) + '</strong><span>آزمون فعال</span></div>'
+      + '</div>'
+      + '<div class="stat-card-modern">'
+      + '<div class="stat-icon-wrap" style="background:var(--ok-soft);color:var(--ok);">' + ICONS.check + '</div>'
+      + '<div class="stat-data"><strong>' + esc(fa(history.length)) + '</strong><span>تکمیل‌شده</span></div>'
+      + '</div>'
+      + '<div class="stat-card-modern">'
+      + '<div class="stat-icon-wrap" style="background:var(--warn-soft);color:var(--warn);">' + ICONS.trophy + '</div>'
+      + '<div class="stat-data"><strong>' + esc(fa(avg)) + '٪</strong><span>میانگین نمرات</span></div>'
+      + '</div>'
       + '</div></section>';
 
     if (state.tab === 'history') {
       html += '<section class="section">'
-        + '<div class="section-head"><h2>نتایج من</h2>'
+        + '<div class="section-head"><h2>کارنامه‌ها و نتایج من</h2>'
         + '<button type="button" class="link-btn" data-action="refresh">' + ICONS.refresh + ' بروزرسانی</button></div>';
       if (history.length === 0) {
-        html += '<div class="empty">' + ICONS.empty + '<h3>هنوز نتیجه‌ای نداری</h3>'
-          + '<p>بعد از اولین آزمون، نتیجه‌ات اینجا نمایش داده می‌شود.</p></div>';
+        html += '<div class="empty">' + ICONS.empty + '<h3>هنوز نتیجه‌ای ثبت نشده</h3>'
+          + '<p>پس از شرکت در اولین آزمون، کارنامه تحلیلی در این بخش نمایش داده می‌شود.</p></div>';
       } else {
         html += '<div class="stack">';
         for (var i = 0; i < history.length; i++) {
@@ -494,8 +555,8 @@
     } else {
       if (active.length > 0) {
         html += '<section class="section">'
-          + '<div class="section-head"><h2>در حال انجام</h2><span class="count">'
-          + esc(fa(active.length)) + ' آزمون</span></div><div class="stack">';
+          + '<div class="section-head"><h2>آزمون در حال انجام</h2><span class="count">'
+          + esc(fa(active.length)) + ' مورد</span></div><div class="stack">';
         for (var a = 0; a < active.length; a++) {
           html += activeCard(active[a]);
         }
@@ -503,15 +564,37 @@
       }
 
       html += '<section class="section">'
-        + '<div class="section-head"><h2>آزمون‌های فعال</h2>'
+        + '<div class="section-head"><h2>آزمون‌های در دسترس</h2>'
         + '<button type="button" class="link-btn" data-action="refresh">' + ICONS.refresh + ' بروزرسانی</button></div>';
-      if (quizzes.length === 0) {
-        html += '<div class="empty">' + ICONS.empty + '<h3>آزمونی در دسترس نیست</h3>'
-          + '<p>به‌محض فعال شدن آزمون جدید، اینجا نمایش داده می‌شود.</p></div>';
+
+      if (quizzes.length > 2 || state.searchQuery) {
+        html += '<div class="search-wrap">'
+          + '<input type="text" id="quizSearch" class="search-input" placeholder="جستجوی سریع در نام آزمون..." value="' + esc(state.searchQuery || '') + '">'
+          + '<span class="search-icon">' + ICONS.search + '</span>'
+          + '</div>';
+      }
+
+      var qterm = (state.searchQuery || '').trim().toLowerCase();
+      var filtered = [];
+      for (var f = 0; f < quizzes.length; f++) {
+        if (!qterm) {
+          filtered.push(quizzes[f]);
+        } else {
+          var t = (quizzes[f].title || '').toLowerCase();
+          var d = (quizzes[f].description || '').toLowerCase();
+          if (t.indexOf(qterm) !== -1 || d.indexOf(qterm) !== -1) {
+            filtered.push(quizzes[f]);
+          }
+        }
+      }
+
+      if (filtered.length === 0) {
+        html += '<div class="empty">' + ICONS.empty + '<h3>آزمونی یافت نشد</h3>'
+          + '<p>' + (qterm ? 'هیچ آزمونی با عبارت جستجوی شما تطابق ندارد.' : 'در حال حاضر آزمون جدیدی فعال نیست.') + '</p></div>';
       } else {
-        html += '<div class="stack">';
-        for (var q = 0; q < quizzes.length; q++) {
-          html += quizCard(quizzes[q]);
+        html += '<div class="quiz-grid">';
+        for (var q = 0; q < filtered.length; q++) {
+          html += quizCard(filtered[q]);
         }
         html += '</div>';
       }
@@ -526,31 +609,38 @@
   function renderEntry(quiz) {
     state.screen = 'entry';
     var hasCode = !!quiz.has_code;
+    var stCode = (state.student && state.student.code) ? state.student.code : '';
+    var stName = (state.student && state.student.first_name) ? (state.student.first_name + ' ' + (state.student.last_name || '')) : '';
     var meta = '<span class="meta-pill">' + ICONS.book + esc(fa(quiz.question_count)) + ' سوال</span>'
       + '<span class="meta-pill">' + ICONS.clock
       + (Number(quiz.time_limit) > 0 ? esc(faDur(quiz.time_limit)) : 'بدون محدودیت') + '</span>'
-      + (hasCode ? '<span class="meta-pill locked">' + ICONS.lock + ' نیازمند کد آزمون</span>' : '');
+      + (hasCode ? '<span class="meta-pill locked">' + ICONS.lock + ' نیازمند کد ورود</span>' : '');
+
+    var studentFieldHtml = '';
+    if (stCode) {
+      studentFieldHtml = '<label class="field"><span>کد دانش‌آموزی احراز شده</span>'
+        + '<input type="text" name="student_code" dir="ltr" inputmode="text" autocomplete="off" spellcheck="false" required value="' + esc(stCode) + '" readonly style="background:var(--surface-2);font-weight:700;color:var(--brand);">'
+        + '<small>ورود تایید شده به نام <b>' + esc(stName || stCode) + '</b></small></label>';
+    } else {
+      studentFieldHtml = '<label class="field"><span>کد دانش‌آموزی</span>'
+        + '<input type="text" name="student_code" dir="ltr" inputmode="text" autocomplete="off" spellcheck="false" required placeholder="مثلاً ST92K">'
+        + '<small>کدی که برگزارکننده برای شما ایجاد کرده است.</small></label>';
+    }
 
     view.innerHTML = '<div class="screen-head">'
-      + '<button type="button" class="back-btn" data-action="back-home">' + ICONS.arrowRight + ' بازگشت</button>'
+      + '<button type="button" class="back-btn" data-action="back-home">' + ICONS.arrowRight + ' بازگشت به داشبورد</button>'
       + '</div>'
       + '<section class="card entry-card">'
-      + '<p class="eyebrow">شرکت در آزمون</p>'
+      + '<p class="eyebrow">آماده‌سازی آزمون</p>'
       + '<h1>' + esc(quiz.title) + '</h1>'
       + (quiz.description ? '<p class="entry-desc">' + esc(quiz.description) + '</p>' : '')
       + '<div class="entry-meta">' + meta + '</div>'
       + '<form id="entryForm" novalidate>'
       + '<div class="form-grid">'
-      + '<label class="field"><span>کد آزمون'
-      + (hasCode ? '' : ' <span class="optional">(اختیاری)</span>') + '</span>'
-      + '<input type="text" name="exam_code" dir="ltr" inputmode="text" autocomplete="off" spellcheck="false"'
-      + (hasCode ? ' required' : '') + ' placeholder="مثلاً EXAM99">'
-      + '<small>' + (hasCode
-        ? 'کد ورود آزمون را از معلم یا ادمین بگیر.'
-        : 'این آزمون کد ورود ندارد؛ می‌توانی خالی بگذاری.') + '</small></label>'
-      + '<label class="field"><span>کد دانش‌آموزی</span>'
-      + '<input type="text" name="student_code" dir="ltr" inputmode="text" autocomplete="off" spellcheck="false" required placeholder="مثلاً ST92K">'
-      + '<small>کدی که ادمین برای تو ساخته است.</small></label>'
+      + (hasCode ? ('<label class="field"><span>کد عبور اختصاصی این آزمون</span>'
+        + '<input type="text" name="exam_code" dir="ltr" inputmode="text" autocomplete="off" spellcheck="false" required placeholder="مثلاً EXAM99" autofocus>'
+        + '<small>کد ورود به این آزمون را از معلم یا مدرسه دریافت کنید.</small></label>') : '')
+      + studentFieldHtml
       + '</div>'
       + '<p class="form-error" id="entryError" role="alert"></p>'
       + '<button type="submit" class="btn primary block entry-submit">' + ICONS.play + ' شروع آزمون</button>'
@@ -1047,6 +1137,20 @@
       });
     }
 
+    var logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+      logoutBtn.addEventListener('click', function () {
+        api('logout').then(function () {
+          state.student = null;
+          if (state.config) {
+            state.config.logged_in = false;
+          }
+          toast('با موفقیت خارج شدید.', 'info');
+          renderAuth();
+        });
+      });
+    }
+
     if (bottomNav) {
       bottomNav.addEventListener('click', function (event) {
         var button = event.target.closest ? event.target.closest('[data-tab]') : null;
@@ -1107,6 +1211,51 @@
             toast('با موفقیت خارج شدید.', 'info');
             renderAuth();
           });
+        } else if (action === 'copy-code') {
+          var codeToCopy = target.getAttribute('data-code');
+          if (codeToCopy) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(codeToCopy).then(function () {
+                toast('کد دانش‌آموزی با موفقیت کپی شد: ' + codeToCopy, 'ok');
+              }).catch(function () {
+                toast('کد دانش‌آموزی: ' + codeToCopy, 'info');
+              });
+            } else {
+              toast('کد دانش‌آموزی: ' + codeToCopy, 'info');
+            }
+          }
+        }
+      });
+
+      view.addEventListener('input', function (event) {
+        if (event.target && event.target.id === 'quizSearch') {
+          state.searchQuery = event.target.value;
+          var quizzes = (state.home && state.home.quizzes) ? state.home.quizzes : [];
+          var qterm = state.searchQuery.trim().toLowerCase();
+          var filtered = [];
+          for (var i = 0; i < quizzes.length; i++) {
+            if (!qterm) {
+              filtered.push(quizzes[i]);
+            } else {
+              var t = (quizzes[i].title || '').toLowerCase();
+              var d = (quizzes[i].description || '').toLowerCase();
+              if (t.indexOf(qterm) !== -1 || d.indexOf(qterm) !== -1) {
+                filtered.push(quizzes[i]);
+              }
+            }
+          }
+          var grid = view.querySelector('.quiz-grid');
+          if (grid) {
+            if (filtered.length === 0) {
+              grid.innerHTML = '<div class="empty" style="grid-column: 1/-1;">' + ICONS.empty + '<h3>آزمونی یافت نشد</h3><p>هیچ آزمونی با عبارت جستجو پیدا نشد.</p></div>';
+            } else {
+              var qhtml = '';
+              for (var q = 0; q < filtered.length; q++) {
+                qhtml += quizCard(filtered[q]);
+              }
+              grid.innerHTML = qhtml;
+            }
+          }
         }
       });
 
